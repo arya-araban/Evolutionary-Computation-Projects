@@ -1,0 +1,3 @@
+The first main script doesn't seem to be getting great results.
+The reason seems to be a minor problem with the bitstring encoding/decoding which causes this.
+I know this due to getting great results project 3, which uses Real encoding and Tournament selection.
