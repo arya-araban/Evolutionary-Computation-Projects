@@ -7,24 +7,6 @@ from lib.objective_functions import funcs
 import numpy as np
 
 
-# decode bitstrings of one person in the population to numbers
-def decode(bounds, n_bits, bitstrings):
-    decoded = list()
-    largest = 2 ** n_bits
-    for bts in bitstrings:
-        substring = bts
-        # convert bitstring to a string of chars
-        chars = ''.join([str(s) for s in substring])
-
-        # convert string to integer
-        integer = int(chars, 2)
-        # scale integer to desired range
-        value = bounds[0] + (integer / largest) * (bounds[1] - bounds[0])
-        # store
-        decoded.append(value)
-    return decoded
-
-
 # tournament selection
 def tournament_selection(pop, scores, k=3):
     # first random selection
@@ -41,49 +23,21 @@ def tournament_selection(pop, scores, k=3):
 def crossover(p1, p2, r_cross):
     # children are copies of parents by default
     c1, c2 = p1.copy(), p2.copy()
-
     # check for recombination
     if rand() < r_cross:
-        c1 = p1 + random.uniform(0, 1) * (p2 - p1)
-        c2 = p2 + random.uniform(0, 1) * (p1 - p2)
-
-    return [c1, c2]
-
-
-# crossover two parents to create two children
-def crossover1(p1, p2, r_cross):
-    # children are copies of parents by default
-    c1, c2 = p1.copy(), p2.copy()
-
-    # check for recombination
-    if rand() < r_cross:
-        # select crossover point that is not on the end of the string
-
-        for i in range(len(c1)):
-            pt = randint(1, len(p1[0]) - 2)
-            # perform crossover
-            c1[i] = p1[i][:pt] + p2[i][pt:]
-            c2[i] = p2[i][:pt] + p1[i][pt:]
+        c1 = (p1 + random.uniform(0, 1) * (np.subtract(p2, p1))).tolist()
+        c2 = (p2 + random.uniform(0, 1) * (np.subtract(p1, p2))).tolist()
 
     return [c1, c2]
 
 
 # mutation operator
-def mutation(child, r_mut, sigma=0.1):
+def mutation(child, r_mut, sigma_mut):
     # check for a mutation
     if rand() < r_mut:
-        return child + np.random.normal(loc=0.0, scale=sigma, size=len(child))
+        return child + np.random.normal(loc=0.0, scale=sigma_mut, size=len(child))
 
-
-# mutation operator
-def mutation1(bitstrings, r_mut):
-    for bts in bitstrings:
-        for i in range(len(bts)):
-            # check for a mutation
-            if rand() < r_mut:
-                # flip the bit
-
-                bts[i] = 1 - bts[i]
+    return child
 
 
 # genetic algorithm
@@ -91,7 +45,7 @@ def genetic_algorithm(objective, bounds, n_iter, n_pop, n_inside_parent, r_cross
     # initial population of random numbers in bounds
     pop = [[randint(bounds[0], bounds[1]) for _ in range(n_inside_parent)] for _ in range(n_pop)]
     # keep track of best solution
-    best, best_eval = 0, pop[0]
+    best, best_eval = 0, objective(pop[0])
     # enumerate generations
     for gen in range(n_iter):
         # evaluate all candidates in the population
@@ -111,8 +65,10 @@ def genetic_algorithm(objective, bounds, n_iter, n_pop, n_inside_parent, r_cross
             # crossover and mutation
             for c in crossover(p1, p2, r_cross):
                 # mutation
-                chd = mutation(c, r_mut, sigma=sigma_mut)
+
+                chd = mutation(c, r_mut, sigma_mut)
                 # store for next generation
+
                 children.append(chd)
         # replace population
         pop = children
@@ -140,27 +96,24 @@ def GA_main(population_size, n_inside_parent, p_crossover, p_mutation, sigma_mut
     best, score = genetic_algorithm(objective_func['function_name'], objective_func['bounds'], n_iter, n_pop,
                                     n_inside_parent, r_cross, r_mut, sigma_mut)
     # print('Done!')
-    decoded = decode(objective_func['bounds'], n_bits, best)
+    # decoded = decode(objective_func['bounds'], n_bits, best)
     # print('f(%s) = %f' % (decoded, score))
-    return decoded, score
+    return best, score
 
 
 def main():
     for i in range(10):
         print(f"FUNCTION {i + 1}")
-        for j in [10, 30, 50]:
-            print(f"N = {j}")
-            sols = []
-            obj = []
-            for k in range(10):
-                best_solution, objective_function_score = GA_main(population_size=250,
-                                                                  n_inside_parent=j, p_crossover=0.5,
-                                                                  p_mutation=0.1, func_num=i + 1)
-                obj.append(objective_function_score)
-                sols.append(best_solution)
-            print(f"best_solution:\n {np.mean(sols, axis=0)}")
-            print(f"objective_function:\n {np.mean(obj)}")
-            print("------------")
+        # for j in [10, 30, 50]:
+        # print(f"N = {j}")
+
+        best_solution, objective_function_score = GA_main(population_size=250,
+                                                          n_inside_parent=20, p_crossover=0.5,
+                                                          p_mutation=0.1, sigma_mutation=0.1, func_num=i + 1)
+
+        print(f"best_solution:\n {best_solution}")
+        print(f"objective_function:\n {objective_function_score}")
+        print("------------")
 
 
 if __name__ == '__main__':
