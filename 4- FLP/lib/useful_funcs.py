@@ -4,7 +4,7 @@ import numpy as np
 
 
 def read_lines_into_arr(file_name, line_begin, line_end):
-    with open(f"../{file_name}") as lines:
+    with open(f"{file_name}") as lines:
         array = np.genfromtxt(islice(lines, line_begin - 1, line_end))
         return array
 

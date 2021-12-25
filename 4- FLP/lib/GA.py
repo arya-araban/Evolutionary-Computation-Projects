@@ -3,15 +3,17 @@ import random
 import numpy as np
 from numpy.random import randint
 from numpy.random import rand
-from useful_funcs import remove_values_from_lists, swap_random
+from lib.useful_funcs import remove_values_from_lists, swap_random
 
 
 # genetic algorithm
-def genetic_algorithm(objective, perm_max, n_iter, n_pop, n_inside_parent, r_cross, r_mut, sigma_mut):
+def genetic_algorithm(objective, perm_n, n_iter, n_pop, r_cross, r_mut):
     # initial population of random numbers in permutation
-    pop = [np.random.permutation(n_pop) for _ in range(perm_max)]
+    pop = [np.random.permutation(perm_n).tolist() for _ in range(n_pop)]
     # keep track of best solution
+
     best, best_eval = 0, objective(pop[0])
+
     # enumerate generations
     for gen in range(n_iter):
         # evaluate all candidates in the population
@@ -20,7 +22,7 @@ def genetic_algorithm(objective, perm_max, n_iter, n_pop, n_inside_parent, r_cro
         for i in range(n_pop):
             if scores[i] < best_eval:
                 best, best_eval = pop[i], scores[i]
-            # print(">%d, new best f(%s) = %f" % (gen, decoded[i], scores[i]))
+                print(">%d, new best f(%s) = %f" % (gen, pop[i], scores[i]))
         # select parents
         selected = [_tournament_selection(pop, scores, k=3) for _ in range(n_pop)]
         # create the next generation
@@ -30,11 +32,12 @@ def genetic_algorithm(objective, perm_max, n_iter, n_pop, n_inside_parent, r_cro
             p1, p2 = selected[i], selected[i + 1]
             # crossover and mutation
             for c in _erx_crossover(p1, p2, r_cross):
+
                 # mutation
-                _swap_mutation(c, r_mut)
+                chd = _swap_mutation(c, r_mut)
                 # store for next generation
 
-                children.append(c)
+                children.append(chd)
         # replace population
         pop = children
     return [best, best_eval]
