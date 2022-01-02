@@ -24,13 +24,23 @@ def schaffer_f2(x):
     return (x - 2) ** 2
 
 
+def zdt1_f1(x):  # bound [0,1]
+    return x[0]
+
+
+def zdt1_f2(x):
+    g = 1 + 9 * (np.sum(x[1:])) / (len(x) - 1)
+    f = g * (1 - (math.sqrt(x[0] / g)))
+    return f
+
+
 def zdt2_f1(x):  # bound [0,1]
     return x[0]
 
 
 def zdt2_f2(x):
     g = 1 + 9 * (np.sum(x[1:])) / (len(x) - 1)
-    f = g * (1 - (math.sqrt(x[0] / g)) ** 2)
+    f = g * (1 - (x[0] / g) ** 2)
     return f
 
 
@@ -54,6 +64,7 @@ def zdt4_f2(x):
         ttl += x[i] ** 2 - 10 * math.cos(4 * math.pi * x[i])
 
     g = 91 + ttl
+    print(g)
     f = g * (1 - math.sqrt(x[0] / g))
     return f
 
@@ -68,17 +79,16 @@ def zdt6_f2(x):
     f = g * (1 - (zdt6_f1(x) / g) ** 2)
     return f
 
-#
-# funcs = {
-#     1: {'function_name': f1, 'bounds': [-100, 100]},
-#     2: {'function_name': f2, 'bounds': [-10, 10]},
-#     3: {'function_name': f3, 'bounds': [-100, 100]},
-#     4: {'function_name': f4, 'bounds': [-100, 100]},
-#     5: {'function_name': f5, 'bounds': [-30, 30]},
-#     6: {'function_name': f6, 'bounds': [-100, 100]},
-#     7: {'function_name': f7, 'bounds': [-1.28, 1.28]},
-#     8: {'function_name': f8, 'bounds': [-500, 500]},
-#     9: {'function_name': f9, 'bounds': [-5.12, 5.12]},
-#     10: {'function_name': f10, 'bounds': [-32, 32]},
-#     11: {'function_name': f11, 'bounds': [-600, 600]},
-# }
+
+_schaffer_A = 1000  # between 10 and 100K
+
+funcs = {
+    'kursawe': {'f1': kursawe_f1, 'f2': kursawe_f2, 'bounds': [(-5, 5)], 'same_range': True, 'expand': False},
+    'schaffer': {'f1': schaffer_f1, 'f2': schaffer_f2, 'bounds': [(-_schaffer_A, _schaffer_A)], 'same_range': False,
+                 'expand': True},
+    'zdt1': {'f1': zdt1_f1, 'f2': zdt1_f2, 'bounds': [(0, 1)], 'same_range': True, 'expand': False},
+    'zdt2': {'f1': zdt2_f1, 'f2': zdt2_f2, 'bounds': [(0, 1)], 'same_range': True, 'expand': False},
+    'zdt3': {'f1': zdt3_f1, 'f2': zdt3_f2, 'bounds': [(0, 1)], 'same_range': True, 'expand': False},
+    'zdt4': {'f1': zdt4_f1, 'f2': zdt4_f2, 'bounds': [(-5, 5)], 'same_range': False, 'expand': False},
+    'zdt6': {'f1': zdt6_f1, 'f2': zdt6_f2, 'bounds': [(0, 1)], 'same_range': True, 'expand': False}
+}
