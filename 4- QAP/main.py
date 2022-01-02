@@ -19,9 +19,9 @@ def GA_main(population_size, n_perm, p_crossover, p_mutation):
 
 
 def main():
-    best_solution, objective_function_score = GA_main(population_size=500,
-                                                      n_perm=25, p_crossover=0.7, p_mutation=0.1)
 
+    best_solution, objective_function_score = GA_main(population_size=370,
+                                                      n_perm=25, p_crossover=0.7, p_mutation=0.1)
     print(f"best_solution:\n {best_solution}")
     print(f"objective_function:\n {objective_function_score}")
     print("------------")

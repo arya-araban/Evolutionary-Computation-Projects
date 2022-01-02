@@ -14,8 +14,9 @@ def remove_values_from_lists(lists, val):
     return [[value for value in i if value != val] for i in lists]
 
 
-def swap_random(seq):
+def swap_random(seq, repetition=1):
     # swap two random numbers in array
     idx = range(len(seq))
-    i1, i2 = random.sample(idx, 2)
-    seq[i1], seq[i2] = seq[i2], seq[i1]
+    for i in range(repetition):
+        i1, i2 = random.sample(idx, 2)
+        seq[i1], seq[i2] = seq[i2], seq[i1]

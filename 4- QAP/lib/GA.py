@@ -24,7 +24,7 @@ def genetic_algorithm(objective, perm_n, n_iter, n_pop, r_cross, r_mut):
                 best, best_eval = pop[i], scores[i]
                 print(">%d, new best f(%s) = %f" % (gen, pop[i], scores[i]))
         # select parents
-        selected = [_tournament_selection(pop, scores, k=3) for _ in range(n_pop)]
+        selected = [_roulette_selection(pop, scores) for _ in range(n_pop)]
         # create the next generation
         children = list()
         for i in range(0, n_pop, 2):
@@ -32,7 +32,6 @@ def genetic_algorithm(objective, perm_n, n_iter, n_pop, r_cross, r_mut):
             p1, p2 = selected[i], selected[i + 1]
             # crossover and mutation
             for c in _erx_crossover(p1, p2, r_cross):
-
                 # mutation
                 chd = _swap_mutation(c, r_mut)
                 # store for next generation
@@ -53,6 +52,24 @@ def _tournament_selection(pop, scores, k=3):
             selection_ix = ix
     # print(pop[selection_ix])
     return pop[selection_ix]
+
+
+def _roulette_selection(pop, scores):
+    if np.min(scores) < 0:
+        scores = scores - np.min(scores)
+
+    scores = np.max(
+        scores) - scores  # this makes smaller scores mean better instead of traditional higher score better.
+    # first random selection
+    div_scores = scores / np.sum(scores)
+    rnd_num = random.uniform(0, 1)
+    idx = -1
+    for i in range(len(scores)):
+        rnd_num = rnd_num - div_scores[i]
+        if (rnd_num < 0):
+            idx = i
+            break
+    return pop[idx]
 
 
 def _erx_crossover(p1, p2, r_cross):
@@ -92,7 +109,7 @@ def _swap_mutation(child, r_mut):
 
 
 def _get_neighbourhoods(list1, list2):
-    """This function takes as input two parents which has only unique values 0 to N,
+    """ This function takes as input two parents which has only unique values 0 to N,
      and output the 2D neighbourhood list.  0's neighbours will be the first list,
       1's neighbours will be the second list, and so on...
     """

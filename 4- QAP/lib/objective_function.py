@@ -10,5 +10,4 @@ def obj_func(v):
     for x in range(matrices_size):
         for y in range(matrices_size):
             fitness_sum += distance_matrix[x, y] * flow_matrix[v[x], v[y]]
-
     return fitness_sum
