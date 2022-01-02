@@ -36,8 +36,9 @@ def main():
     func_name = 'zdt4'
 
     print(f"** {func_name} **")
-
-    NSGA_II_main(funcs[func_name], 30)
+    for N in [10, 30, 50]:
+        print(f"N={N}")
+        NSGA_II_main(funcs[func_name], N)
 
 
 if __name__ == "__main__":

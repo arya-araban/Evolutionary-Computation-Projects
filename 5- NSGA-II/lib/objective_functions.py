@@ -64,8 +64,7 @@ def zdt4_f2(x):
         ttl += x[i] ** 2 - 10 * math.cos(4 * math.pi * x[i])
 
     g = 91 + ttl
-    print(g)
-    f = g * (1 - math.sqrt(x[0] / g))
+    f = g * (1 - math.sqrt(np.abs(x[0] / g)))
     return f
 
 
