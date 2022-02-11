@@ -14,11 +14,18 @@ Implementation of the three main algorithms for Evolution Strategies. The [Rosen
 ## Project 2 
  
 ### Task 1 
-Implementation Of a simple GA, and making use of that GA in order to try to find the minimum of multiple test functions.
+Implementation of a simple GA with Binary Encoding and using Roulette wheel selection. After which, this GA is used in order to try to find the optimal (minimal) value of multiple test functions.
 
 ### Task 2 
 Using GA in order to solve a problem which might occur in the real world. The proposed problem to solve is the [Travelling salesman problem](https://en.wikipedia.org/wiki/Travelling_salesman_problem)
 
 
 ## Project 3
+
+Modifying the previous Implementation of GA so that it uses Real Encoding and [Tournament Selection](https://www.geeksforgeeks.org/tournament-selection-ga/). This new implementation is re-tested with the same test functions used in the previous project. 
+
+
+## Project 4
+
+Modifying the previous Implementation of GA so that it uses Real Encoding and [Tournament Selection](https://www.geeksforgeeks.org/tournament-selection-ga/)
 
