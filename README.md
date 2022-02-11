@@ -27,5 +27,7 @@ Modifying the previous Implementation of GA so that it uses Real Encoding and [T
 
 ## Project 4
 
-Modifying the previous Implementation of GA so that it uses Real Encoding and [Tournament Selection](https://www.geeksforgeeks.org/tournament-selection-ga/)
+Implementation of a solution to the [Quadratic assignment problem](https://en.wikipedia.org/wiki/Quadratic_assignment_problem) using GA. The encoding of the population for this problem is permutation based, and in order to keep permutations throughout GA opperations, Swap Mutation and [ERX Crossover](https://www.rubicite.com/Tutorials/GeneticAlgorithms/CrossoverOperators/EdgeRecombinationCrossoverOperator.aspx) have been used 
 
+
+## Project 5
