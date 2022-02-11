@@ -31,3 +31,5 @@ Implementation of a solution to the [Quadratic assignment problem](https://en.wi
 
 
 ## Project 5
+
+Using the [NSGA-II](https://www.sciencedirect.com/science/article/pii/S1877705811022466) GA algorithm in order to find solutions to multiple objective problems. For each test, a pair of benchmark functions are specified for the algorithm to solve  
