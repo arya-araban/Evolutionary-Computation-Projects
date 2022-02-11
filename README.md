@@ -1,5 +1,7 @@
 # Evolutionary-Computation-Projects
-The projects/homework completed for the Evolutionary Computation course of Fall 2021 @ FUM 
+The projects/homework completed for the Evolutionary Computation course of Fall 2021 @ FUM
+
+Each of the projects contain a document detailing the methods used to reach a solution 
 
 ## Project 1
 
